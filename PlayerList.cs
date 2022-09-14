@@ -10,6 +10,7 @@ public static class PlayerList
         players = new();
     }
     
+    // Note that we return a PlayerManager for the player upon adding it to the list.
     public static PlayerManager Add(TcpClient tcpClient)
     {
         Console.WriteLine("New player connected!");

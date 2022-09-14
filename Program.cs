@@ -10,7 +10,6 @@ internal class Program
         listener.Start();
         Console.WriteLine("Listening...");
         await acceptClients(listener);
-
         Console.WriteLine("Server stopped...");
         Console.ReadLine();
     }
