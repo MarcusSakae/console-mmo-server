@@ -16,4 +16,17 @@ public class Player
         StreamWriter = new StreamWriter(NetworkStream);
         StreamReader = new StreamReader(NetworkStream);
     }
+
+    public void Disconnect()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Player disconnected!");
+        Console.ResetColor();
+        IsConnected = false;
+        TcpClient.Close();
+        StreamWriter.Close();
+        StreamReader.Close();
+        NetworkStream.Close();
+    }
 }
+
