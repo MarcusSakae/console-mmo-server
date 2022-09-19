@@ -9,9 +9,20 @@ internal class Program
         TcpListener listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 11122);
         listener.Start();
         Console.WriteLine("Listening...");
+        Thread updateThread = new Thread(new ThreadStart(Update));
+        updateThread.Start();
         await acceptClients(listener);
         Console.WriteLine("Server stopped...");
         Console.ReadLine();
+    }
+
+    static private void Update()
+    {
+        while (true)
+        {
+            PlayerList.Output();
+            Thread.Sleep(1000);
+        }
     }
 
     static private async Task acceptClients(TcpListener server)
@@ -21,7 +32,6 @@ internal class Program
             var tcpClient = await server.AcceptTcpClientAsync();
             PlayerManager playerManager = PlayerList.Add(tcpClient);
             playerManager.StartReceiveMessage();
-
         } while (true);
 
     }

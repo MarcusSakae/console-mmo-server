@@ -8,9 +8,14 @@ public class Player
     public StreamWriter StreamWriter { get; private set; }
     public StreamReader StreamReader { get; private set; }
     public NetworkStream NetworkStream { get; private set; }
+    public int X { get; set; }
+    public int Y { get; set; }
 
     public Player(TcpClient tcpClient)
     {
+        // Random x and y position (-2 for borders)
+        X = new Random().Next(1, Constants.FIELD_SIZE_X - 2);
+        Y = new Random().Next(1, Constants.FIELD_SIZE_Y - 2);
         TcpClient = tcpClient;
         NetworkStream = tcpClient.GetStream();
         StreamWriter = new StreamWriter(NetworkStream);

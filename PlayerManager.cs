@@ -15,7 +15,7 @@ public class PlayerManager
     public void StartReceiveMessage()
     {
         string lastReceviedMessageTime = string.Empty;
-        while (player.NetworkStream.CanRead && player.IsConnected)
+        if (player.NetworkStream.CanRead && player.IsConnected)
         {
 
             byte[] rxBuf = new byte[player.TcpClient.ReceiveBufferSize];
@@ -23,6 +23,9 @@ public class PlayerManager
             {
                 int bytesRead = player.NetworkStream.Read(rxBuf, 0, player.TcpClient.ReceiveBufferSize);
                 string message = Encoding.ASCII.GetString(rxBuf, 0, bytesRead);
+                if (message.Equals(TcpMessage.GET_POSITION))
+                {
+                }
                 Console.WriteLine(message);
             }
             catch (Exception e)
@@ -33,12 +36,17 @@ public class PlayerManager
 
         }
     }
+
+    public void SendPosition(string message)
+    {
+        byte[] txBuf = new byte[player.TcpClient.SendBufferSize];
+        txBuf = Encoding.ASCII.GetBytes($"POS:{player.X},{player.Y}");
+        player.NetworkStream.Write(txBuf, 0, txBuf.Length);
+    }
 }
 
 
 
 
 //         // sending data
-//         byte[] txBuf = new byte[client.SendBufferSize];
-//         txBuf = Encoding.ASCII.GetBytes("Hello World!");
-//         stream.Write(txBuf, 0, txBuf.Length);
+

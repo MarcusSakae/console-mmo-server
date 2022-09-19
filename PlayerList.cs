@@ -9,7 +9,7 @@ public static class PlayerList
     {
         players = new();
     }
-    
+
     // Note that we return a PlayerManager for the player upon adding it to the list.
     public static PlayerManager Add(TcpClient tcpClient)
     {
@@ -25,6 +25,15 @@ public static class PlayerList
         {
             if (client != currentClient && client.IsConnected)
                 callback(client);
+        });
+    }
+
+    public static void Output()
+    {
+        Console.WriteLine("Players:");
+        players.ForEach(player =>
+        {
+            Console.WriteLine($"Player: {player.X},{player.Y}");
         });
     }
 }
